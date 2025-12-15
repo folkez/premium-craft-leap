@@ -83,9 +83,11 @@ export const QualificationSection = () => {
           <p className="text-muted-foreground mb-6">
             Se você se identificou com o perfil ideal, vamos conversar.
           </p>
-          <Button variant="hero" size="xl">
-            Agendar consultoria gratuita
-          </Button>
+          <a href="#aplicar">
+            <Button variant="hero" size="xl">
+              Aplicar para consultoria
+            </Button>
+          </a>
         </div>
       </div>
     </section>
