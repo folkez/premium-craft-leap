@@ -26,9 +26,11 @@ export const Header = () => {
           <a href="#resultados" className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">
             Resultados
           </a>
-          <Button variant="gold" size="default">
-            Agendar Consultoria
-          </Button>
+          <a href="#aplicar">
+            <Button variant="gold" size="default">
+              Aplicar Agora
+            </Button>
+          </a>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -44,15 +46,17 @@ export const Header = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-card border-t border-border animate-fade-in">
           <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
-            <a href="#metodologia" className="text-foreground py-2 font-medium">
+            <a href="#metodologia" className="text-foreground py-2 font-medium" onClick={() => setMobileMenuOpen(false)}>
               Metodologia
             </a>
-            <a href="#resultados" className="text-foreground py-2 font-medium">
+            <a href="#resultados" className="text-foreground py-2 font-medium" onClick={() => setMobileMenuOpen(false)}>
               Resultados
             </a>
-            <Button variant="gold" className="w-full mt-2">
-              Agendar Consultoria
-            </Button>
+            <a href="#aplicar" onClick={() => setMobileMenuOpen(false)}>
+              <Button variant="gold" className="w-full mt-2">
+                Aplicar Agora
+              </Button>
+            </a>
           </div>
         </div>
       )}

@@ -4,7 +4,7 @@ import { PainPointsSection } from "@/components/PainPointsSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import { QualificationSection } from "@/components/QualificationSection";
 import { ResultsSection } from "@/components/ResultsSection";
-import { CTASection } from "@/components/CTASection";
+import { MultiStepForm } from "@/components/MultiStepForm";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 
@@ -27,7 +27,7 @@ const Index = () => {
           <SolutionSection />
           <QualificationSection />
           <ResultsSection />
-          <CTASection />
+          <MultiStepForm />
         </main>
         <Footer />
       </div>

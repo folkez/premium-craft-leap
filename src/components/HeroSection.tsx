@@ -47,13 +47,17 @@ export const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up stagger-3">
-            <Button variant="hero" size="xl" className="group">
-              Quero previsibilidade de vendas
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="goldOutline" size="lg">
-              Ver resultados
-            </Button>
+            <a href="#aplicar">
+              <Button variant="hero" size="xl" className="group">
+                Quero previsibilidade de vendas
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </a>
+            <a href="#resultados">
+              <Button variant="goldOutline" size="lg">
+                Ver resultados
+              </Button>
+            </a>
           </div>
 
           {/* Trust Indicators */}
