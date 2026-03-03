@@ -6,7 +6,7 @@ const forYou = [
   "Capacidade produtiva para projetos grandes",
   "Busca lucro e posicionamento, não apenas volume",
   "Atende ou quer atender o público Classe A",
-  "Localizado no Rio Grande do Sul",
+  "Localizado na região Sul do Brasil",
 ];
 
 const notForYou = [
@@ -18,11 +18,9 @@ const notForYou = [
 export const QualificationSection = () => {
   return (
     <section className="relative py-24 md:py-32 bg-background overflow-hidden">
-      {/* Decorative Elements */}
       <div className="absolute top-1/2 right-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
       
       <div className="container px-6 relative z-10">
-        {/* Section Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <span className="inline-block text-primary text-sm font-medium tracking-widest uppercase mb-4">
             Fit Check
@@ -35,9 +33,7 @@ export const QualificationSection = () => {
           </p>
         </div>
 
-        {/* Two Column Layout */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* For You */}
           <div className="p-8 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
@@ -57,7 +53,6 @@ export const QualificationSection = () => {
             </ul>
           </div>
 
-          {/* Not For You */}
           <div className="p-8 rounded-xl bg-card border border-border">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
@@ -78,14 +73,13 @@ export const QualificationSection = () => {
           </div>
         </div>
 
-        {/* CTA */}
         <div className="mt-16 text-center">
           <p className="text-muted-foreground mb-6">
             Se você se identificou com o perfil ideal, vamos conversar.
           </p>
           <a href="#aplicar">
             <Button variant="hero" size="xl">
-              Aplicar para consultoria
+              Quero previsibilidade de vendas
             </Button>
           </a>
         </div>

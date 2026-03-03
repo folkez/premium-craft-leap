@@ -10,32 +10,60 @@ import { ArrowRight, ArrowLeft, Check, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-// Validation Schema
+// Declare global types for tracking
+declare global {
+  interface Window {
+    fbq: (...args: any[]) => void;
+    gtag: (...args: any[]) => void;
+    dataLayer: any[];
+  }
+}
+
+// Helper functions for tracking
+const getCookie = (name: string): string => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || "";
+  return "";
+};
+
+const getUrlParam = (name: string): string => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name) || "";
+};
+
+const getUtmParams = () => {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utm_source: params.get("utm_source") || "",
+    utm_medium: params.get("utm_medium") || "",
+    utm_campaign: params.get("utm_campaign") || "",
+    utm_term: params.get("utm_term") || "",
+    utm_content: params.get("utm_content") || "",
+  };
+};
+
+// Optimized 3-step form for higher conversion
 const formSchema = z.object({
-  // Step 1
+  // Step 1: Contact
   name: z.string().trim().min(2, "Nome deve ter pelo menos 2 caracteres").max(100),
+  whatsapp: z.string().trim().min(10, "WhatsApp inválido").max(20),
   companyName: z.string().trim().min(2, "Nome da marcenaria é obrigatório").max(100),
   location: z.string().trim().min(2, "Localização é obrigatória").max(100),
-  whatsapp: z.string().trim().min(10, "WhatsApp inválido").max(20),
-  instagram: z.string().trim().max(100).optional(),
-  // Step 2
+  // Step 2: Qualification
   ticketMedio: z.string().min(1, "Selecione uma opção"),
-  projetosMes: z.string().min(1, "Selecione uma opção"),
   desafio: z.string().min(1, "Selecione uma opção"),
-  // Step 3
+  // Step 3: Readiness
   investeMarketing: z.string().min(1, "Selecione uma opção"),
-  investimentoMensal: z.string().min(1, "Selecione uma opção"),
-  // Step 4
   timing: z.string().min(1, "Selecione uma opção"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 const steps = [
-  { id: 1, title: "Dados Básicos", headline: "Vamos conhecer sua marcenaria" },
-  { id: 2, title: "Qualificação", headline: "Sobre seu momento atual" },
-  { id: 3, title: "Marketing", headline: "Experiência com Investimentos" },
-  { id: 4, title: "Timing", headline: "Timing do Projeto" },
+  { id: 1, title: "Contato", headline: "Vamos conhecer sua marcenaria" },
+  { id: 2, title: "Negócio", headline: "Sobre seu momento atual" },
+  { id: 3, title: "Próximos passos", headline: "Timing e investimento" },
 ];
 
 interface RadioCardProps {
@@ -94,9 +122,12 @@ const RadioGroup = ({ options, value, onChange, columns = 1 }: RadioGroupProps) 
   </div>
 );
 
+const WEBHOOK_URL = "https://webhook.hypegt.cloud/webhook/lp-lovable-marcenaria";
+
 export const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [utms] = useState(() => getUtmParams());
 
   const {
     register,
@@ -110,43 +141,37 @@ export const MultiStepForm = () => {
     mode: "onChange",
     defaultValues: {
       name: "",
+      whatsapp: "",
       companyName: "",
       location: "",
-      whatsapp: "",
-      instagram: "",
       ticketMedio: "",
-      projetosMes: "",
       desafio: "",
       investeMarketing: "",
-      investimentoMensal: "",
       timing: "",
     },
   });
 
   const watchedFields = watch();
 
-  // Validation per step
   const stepFields: Record<number, (keyof FormData)[]> = {
-    1: ["name", "companyName", "location", "whatsapp"],
-    2: ["ticketMedio", "projetosMes", "desafio"],
-    3: ["investeMarketing", "investimentoMensal"],
-    4: ["timing"],
+    1: ["name", "whatsapp", "companyName", "location"],
+    2: ["ticketMedio", "desafio"],
+    3: ["investeMarketing", "timing"],
   };
 
   const isStepValid = (step: number) => {
     const fields = stepFields[step];
     return fields.every((field) => {
       const value = watchedFields[field];
-      if (step === 1 && field === "instagram") return true; // optional
       return value && value.length > 0 && !errors[field];
     });
   };
 
-  const progress = ((currentStep - 1) / (steps.length - 1)) * 100 + (isStepValid(currentStep) ? 25 : 0);
+  const progress = ((currentStep - 1) / (steps.length - 1)) * 100 + (isStepValid(currentStep) ? 33.3 : 0);
 
   const handleNext = async () => {
     const isValid = await trigger(stepFields[currentStep]);
-    if (isValid && currentStep < 4) {
+    if (isValid && currentStep < 3) {
       setCurrentStep((prev) => prev + 1);
     }
   };
@@ -159,17 +184,88 @@ export const MultiStepForm = () => {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
-    console.log("Form submitted:", data);
-    
+
+    const fbp = getCookie("_fbp");
+    const fbc = getCookie("_fbc") || getUrlParam("fbclid");
+    const eventId = `lead_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const externalId = `lead_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // Client-side Meta Pixel Lead event (with eventID for dedup)
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "Lead", {
+        content_name: "Consultoria Marcenaria Premium",
+        content_category: data.ticketMedio,
+        value: 0,
+        currency: "BRL",
+      }, { eventID: eventId });
+    }
+
+    // Client-side GA4 generate_lead event
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "generate_lead", {
+        event_category: "Lead",
+        event_label: "Consultoria Marcenaria Premium",
+        company_name: data.companyName,
+        ticket_medio: data.ticketMedio,
+      });
+    }
+
+    // GTM dataLayer push
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "lead_form_submit",
+      lead_name: data.name,
+      lead_company: data.companyName,
+      lead_whatsapp: data.whatsapp,
+      lead_ticket: data.ticketMedio,
+    });
+
+    // Webhook with lead data + UTMs + Meta CAPI fields
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // Lead data
+          name: data.name,
+          whatsapp: data.whatsapp,
+          company: data.companyName,
+          location: data.location,
+          ticket_medio: data.ticketMedio,
+          desafio: data.desafio,
+          investe_marketing: data.investeMarketing,
+          timing: data.timing,
+
+          // UTMs
+          ...utms,
+
+          // Metadata
+          page_url: window.location.href,
+          submitted_at: new Date().toISOString(),
+
+          // Meta CAPI data for N8N
+          meta_capi: {
+            event_id: eventId,
+            external_id: externalId,
+            fbp: fbp || "",
+            fbc: fbc || "",
+            client_user_agent: navigator.userAgent,
+            fn: data.name,
+            ph: data.whatsapp,
+            country: "br",
+            action_source: "website",
+          },
+        }),
+      });
+    } catch (err) {
+      console.error("Webhook error:", err);
+    }
+
     toast({
       title: "Aplicação enviada com sucesso!",
       description: "Entraremos em contato em até 24 horas.",
     });
-    
+
     setIsSubmitting(false);
   };
 
@@ -264,7 +360,7 @@ export const MultiStepForm = () => {
                     {steps[currentStep - 1].headline}
                   </h3>
 
-                  {/* Step 1: Dados Básicos */}
+                  {/* Step 1: Contact */}
                   {currentStep === 1 && (
                     <div className="space-y-5">
                       <div>
@@ -279,6 +375,22 @@ export const MultiStepForm = () => {
                         />
                         {errors.name && (
                           <p className="text-destructive text-sm mt-1">{errors.name.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <Label htmlFor="whatsapp" className="text-foreground mb-2 block">
+                          WhatsApp *
+                        </Label>
+                        <Input
+                          id="whatsapp"
+                          type="tel"
+                          {...register("whatsapp")}
+                          placeholder="(51) 99999-9999"
+                          className="bg-background border-border focus:border-primary"
+                        />
+                        {errors.whatsapp && (
+                          <p className="text-destructive text-sm mt-1">{errors.whatsapp.message}</p>
                         )}
                       </div>
 
@@ -311,38 +423,10 @@ export const MultiStepForm = () => {
                           <p className="text-destructive text-sm mt-1">{errors.location.message}</p>
                         )}
                       </div>
-
-                      <div>
-                        <Label htmlFor="whatsapp" className="text-foreground mb-2 block">
-                          WhatsApp *
-                        </Label>
-                        <Input
-                          id="whatsapp"
-                          type="tel"
-                          {...register("whatsapp")}
-                          placeholder="(51) 99999-9999"
-                          className="bg-background border-border focus:border-primary"
-                        />
-                        {errors.whatsapp && (
-                          <p className="text-destructive text-sm mt-1">{errors.whatsapp.message}</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <Label htmlFor="instagram" className="text-foreground mb-2 block">
-                          Instagram ou Site (opcional)
-                        </Label>
-                        <Input
-                          id="instagram"
-                          {...register("instagram")}
-                          placeholder="@suamarcenaria ou www.site.com"
-                          className="bg-background border-border focus:border-primary"
-                        />
-                      </div>
                     </div>
                   )}
 
-                  {/* Step 2: Qualificação */}
+                  {/* Step 2: Qualification */}
                   {currentStep === 2 && (
                     <div className="space-y-8">
                       <div>
@@ -368,30 +452,6 @@ export const MultiStepForm = () => {
                         />
                         {errors.ticketMedio && (
                           <p className="text-destructive text-sm mt-2">{errors.ticketMedio.message}</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <Label className="text-foreground mb-3 block">
-                          Quantos projetos completos consegue entregar/mês? *
-                        </Label>
-                        <Controller
-                          name="projetosMes"
-                          control={control}
-                          render={({ field }) => (
-                            <RadioGroup
-                              options={[
-                                { value: "1-2", label: "1 a 2 projetos" },
-                                { value: "3-4", label: "3 a 4 projetos" },
-                                { value: "5+", label: "5 ou mais projetos" },
-                              ]}
-                              value={field.value}
-                              onChange={field.onChange}
-                            />
-                          )}
-                        />
-                        {errors.projetosMes && (
-                          <p className="text-destructive text-sm mt-2">{errors.projetosMes.message}</p>
                         )}
                       </div>
 
@@ -423,12 +483,12 @@ export const MultiStepForm = () => {
                     </div>
                   )}
 
-                  {/* Step 3: Marketing */}
+                  {/* Step 3: Readiness */}
                   {currentStep === 3 && (
                     <div className="space-y-8">
                       <div>
                         <Label className="text-foreground mb-3 block">
-                          Você já investe ou investiu em marketing pago? *
+                          Você já investe em marketing pago? *
                         </Label>
                         <Controller
                           name="investeMarketing"
@@ -450,37 +510,6 @@ export const MultiStepForm = () => {
                         )}
                       </div>
 
-                      <div>
-                        <Label className="text-foreground mb-3 block">
-                          Quanto estaria disposto a investir mensalmente? *
-                        </Label>
-                        <Controller
-                          name="investimentoMensal"
-                          control={control}
-                          render={({ field }) => (
-                            <RadioGroup
-                              options={[
-                                { value: "ate-2k", label: "Até R$ 2.000" },
-                                { value: "2k-4k", label: "R$ 2.000 a R$ 4.000" },
-                                { value: "4k-7k", label: "R$ 4.000 a R$ 7.000" },
-                                { value: "acima-7k", label: "Acima de R$ 7.000" },
-                              ]}
-                              value={field.value}
-                              onChange={field.onChange}
-                              columns={2}
-                            />
-                          )}
-                        />
-                        {errors.investimentoMensal && (
-                          <p className="text-destructive text-sm mt-2">{errors.investimentoMensal.message}</p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 4: Timing */}
-                  {currentStep === 4 && (
-                    <div className="space-y-8">
                       <div>
                         <Label className="text-foreground mb-3 block">
                           Quando pretende estruturar sua aquisição de clientes? *
@@ -539,7 +568,7 @@ export const MultiStepForm = () => {
                   Voltar
                 </Button>
 
-                {currentStep < 4 ? (
+                {currentStep < 3 ? (
                   <Button
                     type="button"
                     variant="gold"

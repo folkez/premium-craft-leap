@@ -31,7 +31,7 @@ export const PainPointsSection = () => {
             Você se identifica com isso?
           </h2>
           <p className="text-muted-foreground text-lg">
-            Se você é dono de marcenaria premium no RS, provavelmente já passou por esses desafios.
+            Se você é dono de marcenaria premium no Sul do Brasil, provavelmente já passou por esses desafios.
           </p>
         </div>
 
@@ -43,20 +43,15 @@ export const PainPointsSection = () => {
               className="group relative p-8 rounded-lg bg-card border border-border hover:border-primary/30 transition-all duration-500 hover:shadow-[0_8px_40px_hsl(40_45%_55%/0.1)]"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Icon */}
               <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
                 <point.icon className="w-7 h-7 text-primary" />
               </div>
-
-              {/* Content */}
               <h3 className="font-display text-xl text-foreground mb-3">
                 {point.title}
               </h3>
               <p className="text-muted-foreground leading-relaxed">
                 {point.description}
               </p>
-
-              {/* Decorative Corner */}
               <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
                 <div className="absolute top-0 right-0 w-px h-8 bg-gradient-to-b from-primary/30 to-transparent transform translate-x-0" />
                 <div className="absolute top-0 right-0 w-8 h-px bg-gradient-to-l from-primary/30 to-transparent" />
