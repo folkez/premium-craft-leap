@@ -31,7 +31,7 @@ export const HeroSection = () => {
           </div>
 
           {/* Headline */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-tight mb-6 animate-fade-up stagger-1">
+          <h1 className="font-display text-3xl md:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-tight mb-6 animate-fade-up stagger-1">
             Sua Marcenaria não deveria{" "}
             <span className="text-gradient-gold">depender apenas</span>{" "}
             de indicações.
@@ -56,24 +56,20 @@ export const HeroSection = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 pt-8 border-t border-border/50 animate-fade-up stagger-4">
-            <div className="text-center md:text-left">
-              <p className="text-sm font-medium text-foreground">+15 marcenarias</p>
-              <p className="text-xs text-muted-foreground">atendidas no Brasil</p>
+          <div className="grid grid-cols-3 gap-4 md:gap-8 pt-8 border-t border-border/50 animate-fade-up stagger-4 w-full max-w-lg md:max-w-none mx-auto">
+            <div className="text-center">
+              <p className="text-sm font-medium text-foreground">+15</p>
+              <p className="text-xs text-muted-foreground">marcenarias atendidas</p>
             </div>
 
-            <div className="w-px h-8 bg-border hidden md:block" />
-
-            <div className="text-center md:text-left">
-              <p className="text-2xl font-display text-primary font-bold">R$ 2.3M+</p>
-              <p className="text-xs text-muted-foreground">em projetos fechados</p>
+            <div className="text-center border-x border-border/50">
+              <p className="text-sm md:text-2xl font-display text-primary font-bold">R$ 2.3M+</p>
+              <p className="text-xs text-muted-foreground">projetos fechados</p>
             </div>
 
-            <div className="w-px h-8 bg-border hidden md:block" />
-
-            <div className="text-center md:text-left">
-              <p className="text-2xl font-display text-primary font-bold">32%</p>
-              <p className="text-xs text-muted-foreground">aumento no ticket médio</p>
+            <div className="text-center">
+              <p className="text-sm md:text-2xl font-display text-primary font-bold">32%</p>
+              <p className="text-xs text-muted-foreground">aumento ticket médio</p>
             </div>
           </div>
         </div>

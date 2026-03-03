@@ -51,7 +51,7 @@ export const SolutionSection = () => {
               {/* Card */}
               <div className="h-full p-8 rounded-xl bg-gradient-to-b from-card to-charcoal border border-border hover:border-primary/40 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_hsl(0_0%_0%/0.4)]">
                 {/* Number Badge */}
-                <div className="absolute -top-4 -right-2 w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                <div className="absolute -top-3 right-3 md:-top-4 md:-right-2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
                   <span className="font-display text-lg text-primary font-bold">
                     0{index + 1}
                   </span>
