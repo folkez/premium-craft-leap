@@ -4,7 +4,7 @@ import heroKitchen from "@/assets/hero-kitchen.jpg";
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img 
@@ -18,7 +18,7 @@ export const HeroSection = () => {
       <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
       
       {/* Decorative Line */}
-      <div className="absolute left-1/2 top-24 w-px h-20 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+      <div className="absolute left-1/2 top-12 w-px h-20 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
 
       <div className="container relative z-10 px-6 py-16 md:py-24">
         <div className="max-w-4xl mx-auto text-center">
@@ -42,43 +42,24 @@ export const HeroSection = () => {
             Implementamos um sistema previsível de vendas para fechar projetos{" "}
             <span className="text-foreground font-medium">acima de R$ 25 mil</span>{" "}
             todos os meses, atraindo apenas o público{" "}
-            <span className="text-foreground font-medium">Classe A no RS</span>.
+            <span className="text-foreground font-medium">Classe A no Sul do Brasil</span>.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up stagger-3">
+          {/* CTA Button */}
+          <div className="flex items-center justify-center mb-16 animate-fade-up stagger-3">
             <a href="#aplicar">
               <Button variant="hero" size="xl" className="group">
                 Quero previsibilidade de vendas
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
-            <a href="#resultados">
-              <Button variant="goldOutline" size="lg">
-                Ver resultados
-              </Button>
-            </a>
           </div>
 
           {/* Trust Indicators */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 pt-8 border-t border-border/50 animate-fade-up stagger-4">
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="w-10 h-10 rounded-full bg-charcoal-lighter border-2 border-background flex items-center justify-center"
-                  >
-                    <span className="text-xs text-muted-foreground font-medium">
-                      {String.fromCharCode(64 + i)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="text-left">
-                <p className="text-sm font-medium text-foreground">+47 marcenarias</p>
-                <p className="text-xs text-muted-foreground">atendidas no RS</p>
-              </div>
+            <div className="text-center md:text-left">
+              <p className="text-sm font-medium text-foreground">+15 marcenarias</p>
+              <p className="text-xs text-muted-foreground">atendidas no Brasil</p>
             </div>
 
             <div className="w-px h-8 bg-border hidden md:block" />
