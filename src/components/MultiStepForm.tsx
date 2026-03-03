@@ -109,7 +109,7 @@ interface RadioGroupProps {
 }
 
 const RadioGroup = ({ options, value, onChange, columns = 1 }: RadioGroupProps) => (
-  <div className={cn("grid gap-3", columns === 2 ? "grid-cols-2" : "grid-cols-1")}>
+  <div className={cn("grid gap-3", columns === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1")}>
     {options.map((option) => (
       <RadioCard
         key={option.value}

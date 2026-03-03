@@ -77,7 +77,7 @@ export const ResultsSection = () => {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <metric.icon className="w-6 h-6 text-primary" />
               </div>
-              <p className="font-display text-3xl md:text-4xl text-primary font-bold mb-1">
+              <p className="font-display text-2xl md:text-4xl text-primary font-bold mb-1">
                 {metric.value}
               </p>
               <p className="text-foreground font-medium text-sm mb-1">
