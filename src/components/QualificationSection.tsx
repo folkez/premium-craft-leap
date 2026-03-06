@@ -15,7 +15,11 @@ const notForYou = [
   "Quem busca resultados imediatos sem estratégia",
 ];
 
-export const QualificationSection = () => {
+interface QualificationSectionProps {
+  onOpenForm?: () => void;
+}
+
+export const QualificationSection = ({ onOpenForm }: QualificationSectionProps) => {
   return (
     <section className="relative py-24 md:py-32 bg-background overflow-hidden">
       <div className="absolute top-1/2 right-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
@@ -77,11 +81,9 @@ export const QualificationSection = () => {
           <p className="text-muted-foreground mb-6">
             Se você se identificou com o perfil ideal, vamos conversar.
           </p>
-          <a href="#aplicar">
-            <Button variant="hero" size="xl">
-              Quero previsibilidade de vendas
-            </Button>
-          </a>
+          <Button variant="hero" size="xl" onClick={onOpenForm}>
+            Quero previsibilidade de vendas
+          </Button>
         </div>
       </div>
     </section>
