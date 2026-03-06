@@ -81,11 +81,9 @@ export const QualificationSection = ({ onOpenForm }: QualificationSectionProps) 
           <p className="text-muted-foreground mb-6">
             Se você se identificou com o perfil ideal, vamos conversar.
           </p>
-          <a href="#aplicar">
-            <Button variant="hero" size="xl">
-              Quero previsibilidade de vendas
-            </Button>
-          </a>
+          <Button variant="hero" size="xl" onClick={onOpenForm}>
+            Quero previsibilidade de vendas
+          </Button>
         </div>
       </div>
     </section>
