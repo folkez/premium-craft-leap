@@ -27,7 +27,7 @@ const Index = () => {
           <HeroSection onOpenForm={() => setIsFormOpen(true)} />
           <PainPointsSection />
           <SolutionSection />
-          <QualificationSection />
+          <QualificationSection onOpenForm={() => setIsFormOpen(true)} />
           <ResultsSection />
         </main>
         <Footer />
