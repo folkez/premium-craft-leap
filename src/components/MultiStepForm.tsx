@@ -665,7 +665,11 @@ export const MobileStickyBar = ({ onClick }: { onClick: () => void }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setVisible(window.scrollY > 300);
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const footerThreshold = docHeight - winHeight - 200;
+      setVisible(scrollY > 400 && scrollY < footerThreshold);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
@@ -682,7 +686,7 @@ export const MobileStickyBar = ({ onClick }: { onClick: () => void }) => {
           transition={{ duration: 0.3 }}
           className="fixed bottom-0 left-0 right-0 z-40 md:hidden"
         >
-          <div className="bg-card/95 backdrop-blur-md border-t-2 border-primary px-4 py-3 safe-bottom">
+          <div className="bg-background/95 backdrop-blur-md border-t-2 border-primary px-4 py-3 safe-bottom">
             <Button
               variant="hero"
               size="lg"
