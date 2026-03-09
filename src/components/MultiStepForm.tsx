@@ -162,7 +162,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
   const watchedFields = watch();
 
   const stepFields: Record<number, (keyof FormData)[]> = {
-    1: ["name", "whatsapp"],
+    1: ["name", "whatsapp", "email"],
     2: ["companyName", "location", "ticketMedio"],
     3: ["desafio", "tempoMarcenaria", "investeMarketing"],
   };
