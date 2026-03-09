@@ -232,6 +232,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
         body: JSON.stringify({
           name: data.name,
           whatsapp: data.whatsapp,
+          email: data.email,
           company: data.companyName,
           location: data.location,
           ticket_medio: data.ticketMedio,
