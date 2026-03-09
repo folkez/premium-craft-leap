@@ -378,6 +378,22 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
                     <p className="text-destructive text-sm mt-1">{errors.whatsapp.message}</p>
                   )}
                 </div>
+
+                <div>
+                  <Label htmlFor="email" className="text-foreground mb-2 block">
+                    E-mail *
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...register("email")}
+                    placeholder="seu@email.com"
+                    className="bg-background border-border focus:border-primary h-12"
+                  />
+                  {errors.email && (
+                    <p className="text-destructive text-sm mt-1">{errors.email.message}</p>
+                  )}
+                </div>
               </div>
             )}
 
