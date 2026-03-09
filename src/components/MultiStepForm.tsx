@@ -149,6 +149,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
     defaultValues: {
       name: "",
       whatsapp: "",
+      email: "",
       companyName: "",
       location: "",
       ticketMedio: "",
