@@ -250,6 +250,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
             client_user_agent: navigator.userAgent,
             fn: data.name,
             ph: data.whatsapp,
+            em: data.email,
             country: "br",
             action_source: "website",
           },
