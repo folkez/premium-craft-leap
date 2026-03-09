@@ -47,9 +47,10 @@ const getUtmParams = () => {
 
 // New 3-step schema
 const formSchema = z.object({
-  // Step 1: Nome + WhatsApp only
+  // Step 1: Nome + WhatsApp + Email
   name: z.string().trim().min(2, "Nome deve ter pelo menos 2 caracteres").max(100),
   whatsapp: z.string().trim().min(10, "WhatsApp inválido").max(20),
+  email: z.string().trim().email("E-mail inválido").max(255),
   // Step 2: Qualification
   companyName: z.string().trim().min(2, "Nome da marcenaria é obrigatório").max(100),
   location: z.string().trim().min(2, "Localização é obrigatória").max(100),
