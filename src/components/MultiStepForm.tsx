@@ -47,9 +47,10 @@ const getUtmParams = () => {
 
 // New 3-step schema
 const formSchema = z.object({
-  // Step 1: Nome + WhatsApp only
+  // Step 1: Nome + WhatsApp + Email
   name: z.string().trim().min(2, "Nome deve ter pelo menos 2 caracteres").max(100),
   whatsapp: z.string().trim().min(10, "WhatsApp inválido").max(20),
+  email: z.string().trim().email("E-mail inválido").max(255),
   // Step 2: Qualification
   companyName: z.string().trim().min(2, "Nome da marcenaria é obrigatório").max(100),
   location: z.string().trim().min(2, "Localização é obrigatória").max(100),
@@ -148,6 +149,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
     defaultValues: {
       name: "",
       whatsapp: "",
+      email: "",
       companyName: "",
       location: "",
       ticketMedio: "",
@@ -160,7 +162,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
   const watchedFields = watch();
 
   const stepFields: Record<number, (keyof FormData)[]> = {
-    1: ["name", "whatsapp"],
+    1: ["name", "whatsapp", "email"],
     2: ["companyName", "location", "ticketMedio"],
     3: ["desafio", "tempoMarcenaria", "investeMarketing"],
   };
@@ -230,6 +232,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
         body: JSON.stringify({
           name: data.name,
           whatsapp: data.whatsapp,
+          email: data.email,
           company: data.companyName,
           location: data.location,
           ticket_medio: data.ticketMedio,
@@ -247,6 +250,7 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
             client_user_agent: navigator.userAgent,
             fn: data.name,
             ph: data.whatsapp,
+            em: data.email,
             country: "br",
             action_source: "website",
           },
@@ -374,6 +378,22 @@ const MultiStepFormContent = ({ onSuccess }: MultiStepFormContentProps) => {
                   />
                   {errors.whatsapp && (
                     <p className="text-destructive text-sm mt-1">{errors.whatsapp.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <Label htmlFor="email" className="text-foreground mb-2 block">
+                    E-mail *
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...register("email")}
+                    placeholder="seu@email.com"
+                    className="bg-background border-border focus:border-primary h-12"
+                  />
+                  {errors.email && (
+                    <p className="text-destructive text-sm mt-1">{errors.email.message}</p>
                   )}
                 </div>
               </div>
