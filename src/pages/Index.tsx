@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { HeroSection } from "@/components/HeroSection";
-import { PainPointsSection } from "@/components/PainPointsSection";
-import { SolutionSection } from "@/components/SolutionSection";
-import { QualificationSection } from "@/components/QualificationSection";
-import { ResultsSection } from "@/components/ResultsSection";
 import { FormModal, MobileStickyBar } from "@/components/MultiStepForm";
-import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { AnimatePresence } from "framer-motion";
+
+// Lazy load below-fold sections to improve FCP/LCP
+const PainPointsSection = lazy(() => import("@/components/PainPointsSection").then(m => ({ default: m.PainPointsSection })));
+const SolutionSection = lazy(() => import("@/components/SolutionSection").then(m => ({ default: m.SolutionSection })));
+const QualificationSection = lazy(() => import("@/components/QualificationSection").then(m => ({ default: m.QualificationSection })));
+const ResultsSection = lazy(() => import("@/components/ResultsSection").then(m => ({ default: m.ResultsSection })));
+const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
