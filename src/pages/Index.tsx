@@ -37,6 +37,7 @@ const Index = () => {
         <Suspense fallback={null}>
           <Footer />
         </Suspense>
+      </div>
 
       {/* Mobile sticky CTA bar */}
       <MobileStickyBar onClick={() => setIsFormOpen(true)} />
