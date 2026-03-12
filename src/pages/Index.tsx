@@ -27,13 +27,16 @@ const Index = () => {
       <div className="min-h-screen bg-background">
         <main>
           <HeroSection onOpenForm={() => setIsFormOpen(true)} />
-          <PainPointsSection />
-          <SolutionSection />
-          <QualificationSection onOpenForm={() => setIsFormOpen(true)} />
-          <ResultsSection />
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <PainPointsSection />
+            <SolutionSection />
+            <QualificationSection onOpenForm={() => setIsFormOpen(true)} />
+            <ResultsSection />
+          </Suspense>
         </main>
-        <Footer />
-      </div>
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
 
       {/* Mobile sticky CTA bar */}
       <MobileStickyBar onClick={() => setIsFormOpen(true)} />
